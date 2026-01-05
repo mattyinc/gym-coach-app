@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'features/splash/splash_screen.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+void main() {
+  runApp(const GymCoachApp());
+}
+
+class GymCoachApp extends StatelessWidget {
+  const GymCoachApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Gym Coach',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
     );
   }
 }
