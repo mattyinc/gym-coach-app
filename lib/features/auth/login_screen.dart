@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../coach/coach_home_screen.dart';
 import 'register_screen.dart';
+import '../splash/splash_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,10 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
       // Go back to splash flow
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => const CoachHomeScreen(),
-        ),
+        MaterialPageRoute(builder: (_) => const SplashScreen()),
       );
+
     } on FirebaseAuthException catch (e) {
       setState(() => _error = e.message);
     } finally {

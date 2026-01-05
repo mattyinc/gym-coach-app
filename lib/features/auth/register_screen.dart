@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -21,10 +22,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     try {
+      final credential =
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      final user = credential.user;
+      if (user == null) return;
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .set({
+        'uid': user.uid,
+        'email': user.email,
+        'role': 'client',
+        'createdAt': FieldValue.serverTimestamp(),
+        'active': true,
+      });
+
+      if (!mounted) return;
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       setState(() => _error = e.message);
@@ -32,6 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() => _loading = false);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

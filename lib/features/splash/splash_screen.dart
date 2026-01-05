@@ -4,6 +4,10 @@ import '../coach/coach_home_screen.dart';
 import '../client/client_home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../auth/login_screen.dart';
+
 
 
 class SplashScreen extends StatefulWidget {
@@ -48,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
     _decideNextScreen();
   }
 
-  void _decideNextScreen() async {
+  Future<void> _decideNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
 
     final user = FirebaseAuth.instance.currentUser;
@@ -60,13 +64,29 @@ class _SplashScreenState extends State<SplashScreen>
         context,
         MaterialPageRoute(builder: (_) => const LoginScreen()),
       );
-    } else {
+      return;
+    }
+
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    final role = doc.data()?['role'];
+
+    if (role == 'coach') {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const CoachHomeScreen()),
       );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const ClientHomeScreen()),
+      );
     }
   }
+
 
   @override
   void dispose() {
