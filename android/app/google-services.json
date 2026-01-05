@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "493127382608",
+    "project_id": "gym-coach-app-007",
+    "storage_bucket": "gym-coach-app-007.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493127382608:android:6b2548947b771f273ec355",
+        "android_client_info": {
+          "package_name": "com.example.gym_coach_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDapyzKJiWZkcB7TxChWnUYa14T2723yAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

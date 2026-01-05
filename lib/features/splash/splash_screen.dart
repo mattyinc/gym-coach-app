@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../coach/coach_home_screen.dart';
 import '../client/client_home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../auth/login_screen.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -48,19 +51,21 @@ class _SplashScreenState extends State<SplashScreen>
   void _decideNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    const role = 'coach'; // change to 'client' to test
+    final user = FirebaseAuth.instance.currentUser;
 
     if (!mounted) return;
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) =>
-        role == 'coach'
-            ? const CoachHomeScreen()
-            : const ClientHomeScreen(),
-      ),
-    );
+    if (user == null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const CoachHomeScreen()),
+      );
+    }
   }
 
   @override
