@@ -10,44 +10,83 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 0.9, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOutBack,
+      ),
+    );
+
+    _controller.forward();
+
     _decideNextScreen();
   }
 
   void _decideNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    // TEMP logic — we will replace this with Firebase
-    final String role = 'client'; // change to 'client' to test
+    const role = 'coach'; // change to 'client' to test
 
     if (!mounted) return;
 
-    if (role == 'coach') {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const CoachHomeScreen()),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const ClientHomeScreen()),
-      );
-    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+        role == 'coach'
+            ? const CoachHomeScreen()
+            : const ClientHomeScreen(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: const Color(0xFF142217),
       body: Center(
-        child: Text(
-          'Gym Coach',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: const Text(
+              'GYM COACH',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                letterSpacing: 2,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
         ),
       ),
