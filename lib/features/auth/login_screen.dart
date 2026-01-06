@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../coach/coach_home_screen.dart';
 import 'register_screen.dart';
 import '../splash/splash_screen.dart';
 

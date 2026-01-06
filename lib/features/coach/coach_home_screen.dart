@@ -46,13 +46,13 @@ class _Header extends StatelessWidget {
         Stack(
           children: [
             const ColorFiltered(
-              colorFilter: const ColorFilter.matrix(<double>[
+              colorFilter: ColorFilter.matrix(<double>[
                 0.2126, 0.7152, 0.0722, 0, 0,
                 0.2126, 0.7152, 0.0722, 0, 0,
                 0.2126, 0.7152, 0.0722, 0, 0,
                 0,      0,      0,      1, 0,
               ]),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 26,
                 backgroundImage: AssetImage('assets/images/coach.png'),
                 backgroundColor: Colors.black26,
